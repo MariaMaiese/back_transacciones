@@ -18,6 +18,10 @@ estado_venta.init({
         type: DataTypes.STRING(50),
         allowNull: false
     },
+    EVE_ESTADO: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
 }, {
     sequelize, //We need to pass the connection instance
     modelName: 'estado_venta'

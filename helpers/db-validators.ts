@@ -2,7 +2,6 @@ import { estado_transaccion } from "../models/estado_transaccion.model";
 import { cotizacion } from "../models/cotizacion.model";
 import { estado_venta } from "../models/estado_venta.model"; import { metodo_pago } from "../models/metodo_pago.model";
 import { transaccion } from "../models/transaccion.model";
-
 import { tipo_dt } from "../models/tipo_dt.model";
 import { venta } from "../models/venta.model";
 

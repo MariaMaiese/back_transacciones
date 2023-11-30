@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'; import { DataTypes, Model } from "sequelize";
+import { Request, Response } from 'express';
 import { cotizacion } from '../models/cotizacion.model';
 
 const cotizacionesGet = async (req: Request, res: Response) => {
@@ -40,7 +40,28 @@ const cotizacionesPost = async (req: Request, res: Response) => {
     })
 }
 
+const cotizacionesPut = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const { COT_MENSAJE } = req.body;
+    await cotizacion.update({
+        COT_RESPONDIDA: true,
+        COT_FECHA_RESPUESTA: new Date(),
+        COT_MENSAJE: COT_MENSAJE
+    }, {
+        where: {
+            COT_ID: id
+        }
+    })
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Cotización actualizada"
+    })
+}
+
 module.exports = {
     cotizacionesGet,
-    cotizacionesGetById
+    cotizacionesGetById,
+    cotizacionesPost,
+    cotizacionesPut
 }

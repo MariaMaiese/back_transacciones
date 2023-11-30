@@ -45,23 +45,6 @@ const estadoMetodoPagoEstaDeshabilitado = async (id: any) => {
     }
 }
 
-const existeMetodoPago = async (id: number) => {
-    const existeMetodoPago = await metodo_pago.findByPk(id);
-    if (!existeMetodoPago) {
-        throw new Error('El id no existe')
-    }
-}
-
-const estadoMetodoPagoEstaDeshabilitado = async (id: any) => {
-    const estadoMetodoPago: any = await metodo_pago.findByPk(id, {
-        attributes: ['MPA_ESTADO']
-    })
-
-    if (!estadoMetodoPago.MPA_ESTADO) {
-        throw new Error(`El método de pago ya está deshabilitado`);
-    }
-}
-
 const existeEstados_venta = async (id: any) => {
     const existeEstados_venta = await estado_venta.findByPk(id);
     if (!existeEstados_venta) {

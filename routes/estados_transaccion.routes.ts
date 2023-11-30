@@ -1,38 +1,35 @@
 import { Router } from "express";
 import { validarCampos } from "../middlewares/validar-campos";
-import { existeTipoUsuario } from "../helpers/db-validators";
-import { body, check, param } from "express-validator";
-const { estado_transaccionGet } = require('../controllers/estado_transaccion.controller')
+import { existeTipoTransaccion, estadoTransacionEstaDeshabilitado } from "../helpers/db-validators";
+import { check, param } from "express-validator";
+const { estados_transaccionGet, estados_transaccionGetById, estados_transaccionPost, estados_transaccionPut, estados_transaccionDelete } = require('../controllers/estado_transaccion.controller')
 
 
 const router = Router();
 
-// TODO: Agregar validaciones como middlewares [] antes del método del controlador
-// TODO: express-validator
-
-router.get('/', estado_transaccionGet);
+router.get('/', estados_transaccionGet);
 
 router.get('/:id', [
-    param('id').custom(existeTipoUsuario),
+    param('id').custom(existeTipoTransaccion),
     validarCampos
-], t_usuariosGetById);
+], estados_transaccionGetById);
 
 router.post('/', [
-    check('TUS_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
-    check('TUS_DESCRIPCION', 'Debe ingresar la descripción').notEmpty(),
+    check('ETR_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
     validarCampos
-], t_usuariosPost);
+], estados_transaccionPost);
 
 router.put('/:id', [
-    param('id').custom(existeTipoUsuario),
+    param('id').custom(existeTipoTransaccion),
+    check('ETR_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
     validarCampos
-], t_usuariosPut);
+], estados_transaccionPut);
 
 router.delete('/:id', [
-    param('id').custom(existeTipoUsuario),
-    check('TUS_ESTADO', "Debe ingresar un estado").notEmpty(),
+    param('id').custom(existeTipoTransaccion),
+    param('id').custom(estadoTransacionEstaDeshabilitado),
     validarCampos
-], t_usuariosDelete);
+], estados_transaccionDelete);
 
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { estado_transaccion } from '../models/estado_transaccion.model';
 
-const estado_transaccionGet = async (req: Request, res: Response) => {
+const estados_transaccionGet = async (req: Request, res: Response) => {
     const estados_transaccion: estado_transaccion[] = await estado_transaccion.findAll()
     res.status(200).json({
         ok: true,
@@ -10,73 +10,70 @@ const estado_transaccionGet = async (req: Request, res: Response) => {
     })
 }
 
-const t_usuariosGetById = async (req: Request, res: Response) => {
+const estados_transaccionGetById = async (req: Request, res: Response) => {
     const { id } = req.params
 
-    const t_usuario: any = await tipo_usuario.findByPk(id);
+    const estado_transaccionById: any = await estado_transaccion.findByPk(id);
 
     res.status(200).json({
         ok: true,
         status: 200,
-        body: t_usuario
+        body: estado_transaccionById
     })
 }
 
-const t_usuariosPost = async (req: Request, res: Response) => {
-    const { TUS_NOMBRE, TUS_DESCRIPCION } = req.body;
+const estados_transaccionPost = async (req: Request, res: Response) => {
+    const { ETR_NOMBRE } = req.body;
 
-    await tipo_usuario.create({ TUS_NOMBRE: TUS_NOMBRE, TUS_DESCRIPCION: TUS_DESCRIPCION, TUS_ESTADO: true })
+    await estado_transaccion.create({ ETR_NOMBRE, ETR_ESTADO: true })
 
     res.status(200).json({
         ok: true,
         status: 200,
-        message: "Tipo de Usuario creado"
+        message: "Estado de transaccion creado"
     })
 }
 
-const t_usuariosPut = async (req: Request, res: Response) => {
+const estados_transaccionPut = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
-    const { TUS_ID, TUS_ESTADO, created_at, updated_at, ...resto } = req.body;
+    const { ETR_NOMBRE } = req.body;
 
-    tipo_usuario.update(resto, {
+    await estado_transaccion.update({ ETR_NOMBRE }, {
         where: {
-            TUS_ID: id
+            ETR_ID: id
         }
     })
 
     res.status(200).json({
         ok: true,
         status: 200,
-        message: "Usuario actualizado"
+        message: "Estado de transaccion actualizado"
     })
 }
 
-const t_usuariosDelete = async (req: Request, res: Response) => {
+const estados_transaccionDelete = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { TUS_ESTADO } = req.body;
 
-    console.log(id, TUS_ESTADO)
-
-    tipo_usuario.update({ TUS_ESTADO: TUS_ESTADO }, {
+    estado_transaccion.update({ ETR_ESTADO: false }, {
         where: {
-            TUS_ID: id
+            ETR_ID: id
         }
     })
 
     res.status(200).json({
         ok: true,
         status: 200,
-        message: "Usuario actualizado"
+        message: "Estado de transaccion eliminado"
     })
 }
 
 module.exports = {
-    estado_transaccionGet,
-    t_usuariosGetById,
-    t_usuariosPost,
-    t_usuariosPut,
-    t_usuariosDelete
+    estados_transaccionGet,
+    estados_transaccionGetById,
+    estados_transaccionPost,
+    estados_transaccionPut,
+    estados_transaccionDelete
 } 

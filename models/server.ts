@@ -9,6 +9,7 @@ class Server {
     e_ventaPath: string;
     tipos_dtPath: string;
     metodos_pagoPath: string;
+    transaccionesPath: string;
 
     constructor() {
         this.app = express();
@@ -19,6 +20,7 @@ class Server {
         this.tipos_dtPath = '/tipos-dt';
 
         this.metodos_pagoPath = '/metodos-pago';
+        this.transaccionesPath = '/transacciones';
 
         // Conectar a base de datos
         this.conectarDB();
@@ -52,6 +54,9 @@ class Server {
         this.app.use(this.e_ventaPath, require('../routes/estados_venta.routes'))
         this.app.use(this.metodos_pagoPath, require('../routes/metodos_pago.routes'))
         this.app.use(this.tipos_dtPath, require('../routes/tipos_dt.routes'))
+        this.app.use(this.transaccionesPath, require('../routes/transacciones.routes'))
+
+
     }
 
     listen() {

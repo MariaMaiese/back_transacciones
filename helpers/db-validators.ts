@@ -1,13 +1,14 @@
 import { estado_transaccion } from "../models/estado_transaccion.model";
 import { cotizacion } from "../models/cotizacion.model";
 import { estado_venta } from "../models/estado_venta.model"; import { metodo_pago } from "../models/metodo_pago.model";
+import { transaccion } from "../models/transaccion.model";
 
 import { tipo_dt } from "../models/tipo_dt.model";
 import { venta } from "../models/venta.model";
 
-const existeTipoTransaccion = async (id: number) => {
-    const existeTipoTransaccion = await estado_transaccion.findByPk(id);
-    if (!existeTipoTransaccion) {
+const existeEstadoTransaccion = async (id: number) => {
+    const existeEstadoTransaccion = await estado_transaccion.findByPk(id);
+    if (!existeEstadoTransaccion) {
         throw new Error('El id no existe')
     }
 }
@@ -46,6 +47,13 @@ const estadoMetodoPagoEstaDeshabilitado = async (id: any) => {
     }
 }
 
+const existeTransaccion = async (id: number) => {
+    const existeTransaccion = await transaccion.findByPk(id);
+    if (!existeTransaccion) {
+        throw new Error('El id no existe')
+    }
+}
+
 const existeEstados_venta = async (id: any) => {
     const existeEstados_venta = await estado_venta.findByPk(id);
     if (!existeEstados_venta) {
@@ -80,15 +88,15 @@ const tiposDtEstaDeshabilitado = async (id: any) => {
     }
 }
 
-const existeVentas = async (id: number) => {
-    const existeVentas = await venta.findByPk(id);
-    if (!existeVentas) {
+const existeVenta = async (id: number) => {
+    const existeVenta = await venta.findByPk(id);
+    if (!existeVenta) {
         throw new Error('El id no existe')
     }
 }
 
 export {
-    existeTipoTransaccion,
+    existeEstadoTransaccion,
     estadoTransacionEstaDeshabilitado,
     existeMetodoPago,
     estadoMetodoPagoEstaDeshabilitado,
@@ -97,5 +105,6 @@ export {
     estadosVentaEstaDeshabilitado,
     existeTipos_dt,
     tiposDtEstaDeshabilitado,
-    existeVentas
+    existeVenta,
+    existeTransaccion,
 }

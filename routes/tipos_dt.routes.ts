@@ -15,13 +15,13 @@ router.get('/:id', [
 ], tipos_dtGetId);
 
 router.post('/', [
-    check('EVE_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
+    check('TDT_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
     validarCampos
 ], tipos_dtPost);
 
 router.put('/:id', [
     param('id').custom(existeTipos_dt),
-    check('EVE_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
+    check('TDT_NOMBRE', 'Debe ingresar el nombre').notEmpty(),
     validarCampos
 ], tipos_dtPut)
 

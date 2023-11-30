@@ -1,4 +1,4 @@
-import { body, check, param } from "express-validator";
+import { check, param } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos";
 import { existeCotizacion } from "../helpers/db-validators";
 
@@ -17,8 +17,8 @@ router.get('/:id', [
 router.post('/', [
     check('COT_MENSAJE', 'Debe ingresar el mensaje').notEmpty(),
     check('COT_CANTIDAD_PARTICIPANTES', 'Debe ingresar la cantidad de participantes').notEmpty().isInt(),
-    check('CUR_ID', 'Debe ingresar el apellido materno').notEmpty(),
-    check('USU_ID', 'Debe ingresar el rut').notEmpty(),
+    check('CUR_ID', 'Debe ingresar el id curso').notEmpty(),
+    check('USU_ID', 'Debe ingresar el usuario id').notEmpty(),
     validarCampos
 ], cotizacionesPost);
 

@@ -5,11 +5,13 @@ class Server {
     app: any;
     port: any;
     // usuariosPath: string;
+    e_transaccionPath: string;
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
         // this.usuariosPath = '/usuarios';
+        this.e_transaccionPath = '/estados-transaccion';
 
         // Conectar a base de datos
         this.conectarDB();
@@ -39,6 +41,7 @@ class Server {
     routes() {
 
         // this.app.use(this.usuariosPath, require('../routes/usuarios.routes'))
+        this.app.use(this.e_transaccionPath, require('../routes/estados_transaccion.routes'))
 
 
     }

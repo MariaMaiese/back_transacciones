@@ -1,4 +1,5 @@
 import { estado_transaccion } from "../models/estado_transaccion.model";
+import { metodo_pago } from "../models/metodo_pago.model";
 
 
 const existeTipoTransaccion = async (id: number) => {
@@ -15,6 +16,23 @@ const estadoTransacionEstaDeshabilitado = async (id: any) => {
 
     if (!estadoEstadoTransaccion.ETR_ESTADO) {
         throw new Error(`El estado de transaccion ya está deshabilitado`);
+    }
+}
+
+const existeMetodoPago = async (id: number) => {
+    const existeMetodoPago = await metodo_pago.findByPk(id);
+    if (!existeMetodoPago) {
+        throw new Error('El id no existe')
+    }
+}
+
+const estadoMetodoPagoEstaDeshabilitado = async (id: any) => {
+    const estadoMetodoPago: any = await metodo_pago.findByPk(id, {
+        attributes: ['MPA_ESTADO']
+    })
+
+    if (!estadoMetodoPago.MPA_ESTADO) {
+        throw new Error(`El método de pago ya está deshabilitado`);
     }
 }
 
@@ -139,6 +157,8 @@ const estadoTransacionEstaDeshabilitado = async (id: any) => {
 export {
     existeTipoTransaccion,
     estadoTransacionEstaDeshabilitado,
+    existeMetodoPago,
+    estadoMetodoPagoEstaDeshabilitado,
     // existePreguntaSeguridad,
     // existeCombinacion,
     // noExisteCombinacion,

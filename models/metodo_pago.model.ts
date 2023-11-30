@@ -18,6 +18,10 @@ metodo_pago.init({
         type: DataTypes.STRING(90),
         allowNull: false
     },
+    MPA_ESTADO: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+    },
 }, {
     sequelize, //We need to pass the connection instance
     modelName: 'metodo_pago'

@@ -3,7 +3,7 @@ import { validarCampos } from "../middlewares/validar-campos";
 import { estadosVentaEstaDeshabilitado, existeEstados_venta } from "../helpers/db-validators";
 
 const { Router } = require('express');
-const { estados_ventaGet, estados_ventaGetById, estados_ventaPost, estados_ventaPut, estados_ventaDelete } = require('../controllers/cotizaciones.controller');
+const { estados_ventaGet, estados_ventaGetById, estados_ventaPost, estados_ventaPut, estados_ventaDelete } = require('../controllers/estados_venta.controller');
 
 const router = Router();
 

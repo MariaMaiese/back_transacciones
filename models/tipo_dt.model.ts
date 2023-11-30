@@ -18,6 +18,10 @@ tipo_dt.init({
         type: DataTypes.STRING(90),
         allowNull: false
     },
+    TDT_ESTADO: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
 }, {
     sequelize, //We need to pass the connection instance
     modelName: 'tipo_dt'

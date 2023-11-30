@@ -7,6 +7,7 @@ class Server {
     cotizacionesPath: string;
     e_transaccionPath: string;
     e_ventaPath: string;
+    tipos_dtPath: string;
     metodos_pagoPath: string;
 
     constructor() {
@@ -15,6 +16,7 @@ class Server {
         this.cotizacionesPath = '/cotizaciones';
         this.e_transaccionPath = '/estados-transaccion';
         this.e_ventaPath = '/estados-venta';
+        this.tipos_dtPath = '/tipos-dt';
 
         this.metodos_pagoPath = '/metodos-pago';
 
@@ -49,8 +51,7 @@ class Server {
         this.app.use(this.e_transaccionPath, require('../routes/estados_transaccion.routes'))
         this.app.use(this.e_ventaPath, require('../routes/estados_venta.routes'))
         this.app.use(this.metodos_pagoPath, require('../routes/metodos_pago.routes'))
-
-
+        this.app.use(this.tipos_dtPath, require('../routes/tipos_dt.routes'))
     }
 
     listen() {

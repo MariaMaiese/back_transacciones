@@ -10,7 +10,7 @@ const router = Router();
 router.get('/', tipos_dtGet);
 
 router.get('/:id', [
-    param('id').custom(tipos_dtGetId),
+    param('id').custom(existeTipos_dt),
     validarCampos
 ], tipos_dtGetId);
 

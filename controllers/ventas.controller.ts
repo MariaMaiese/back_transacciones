@@ -22,23 +22,34 @@ const ventasGetById = async (req: Request, res: Response) => {
     })
 }
 
-const ventasPost = async (req: Request, res: Response) => {
+interface ventasPostDTO {
+    VEN_MONTO: number,
+    VEN_RUT_DT: string,
+    EVE_ID: number,
+    TDT_ID: number,
+    USU_ID: number,
+    PRO_ID: number
+}
+
+
+const ventasPost = async (obj: ventasPostDTO) => {
     const { VEN_MONTO, VEN_RUT_DT,
-        EVE_ID, TDT_ID,
-        USU_ID, PRO_ID } = req.body;
-    await venta.create({
-        VEN_MONTO,
-        VEN_RUT_DT,
-        EVE_ID,
         TDT_ID,
-        USU_ID,
-        PRO_ID
-    })
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        message: "Venta creada"
-    })
+        USU_ID, PRO_ID, } = obj;
+
+    try {
+        return await venta.create({
+            VEN_MONTO,
+            VEN_RUT_DT,
+            EVE_ID: 4,
+            TDT_ID,
+            USU_ID,
+            PRO_ID
+        })
+    } catch (error) {
+        return error
+    }
+
 }
 
 module.exports = {

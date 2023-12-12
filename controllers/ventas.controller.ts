@@ -52,8 +52,26 @@ const ventasPost = async (obj: ventasPostDTO) => {
 
 }
 
+const setVentaPagada = async (VEN_ID: number) => {
+
+    try {
+        return await venta.update(
+            {
+                EVE_ID: 3
+            }, {
+            where: {
+                VEN_ID
+            }
+        })
+    } catch (error) {
+        return error
+    }
+
+}
+
 module.exports = {
     ventasGet,
     ventasGetById,
-    ventasPost
+    ventasPost,
+    setVentaPagada
 }

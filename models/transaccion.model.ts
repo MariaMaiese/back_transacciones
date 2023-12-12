@@ -32,6 +32,12 @@ transaccion.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    TRA_PAYMENT: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+
+
 }, {
     sequelize, //We need to pass the connection instance
     modelName: 'transaccion'

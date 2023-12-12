@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { transaccion } from '../models/transaccion.model';
 import { PaymentCreateRequest } from 'mercadopago/dist/clients/payment/create/types';
-const { ventasPost } = require('../controllers/ventas.controller')
+const { ventasPost, setVentaPagada } = require('../controllers/ventas.controller')
+const { transaccionPost } = require('../controllers/transacciones.controller')
 
 // Step 1: Import the parts of the module you want to use
 import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
@@ -69,56 +70,35 @@ const createOrder = async (req: Request, res: Response) => {
 }
 
 const success = async (req: Request, res: Response) => {
-    const { external_reference } = req.params
+    const { external_reference } = req.query
 
 
-    // // http://localhost:8081/mercadopago/success?collection_id=1320040463
-    // collection_id=1320075595
-    // &collection_status=approved
-    // &payment_id=1320075595
-    // &status=approved
-    // &external_reference=555
-    // &payment_type=credit_card
-    // &merchant_order_id=14029613431
-    // &preference_id=496621230-0904d0d1-1dde-413e-9684-ad6b909a57c7
-    // &site_id=MLC
-    // &processing_mode=aggregator
-    // &merchant_account_id=null
-
-    // res.redirect('localhost:4200/success')
-
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        params: req.params,
-        query: req.query
-    })
+    res.redirect(`http://localhost:4200/success?id=${external_reference}`,)
 }
 
 const failure = async (req: Request, res: Response) => {
-    const { status, payment_type, payment_id } = req.params
+    const { status, payment_type, payment_id } = req.query
 
 
     res.status(200).json({
         ok: true,
         status: 200,
-        body: req.params
+        body: req.query
     })
 }
 
 const pending = async (req: Request, res: Response) => {
-    const { status, payment_type, payment_id } = req.params
+    const { status, payment_type, payment_id } = req.query
 
 
     res.status(200).json({
         ok: true,
         status: 200,
-        body: req.params
+        body: req.query
     })
 }
 
 const webhook = async (req: any, res: Response) => {
-
 
     const { type } = req.query
 
@@ -126,17 +106,30 @@ const webhook = async (req: any, res: Response) => {
 
     const id = req.query['data.id'] ? req.query['data.id'] : undefined;
 
+
+
     try {
         if (type === 'payment') {
             const info = await payment.get({
                 id,
-            }).then((response => {
-                if (response.api_response.status === 200) {
+            }).then((async response => {
+                if (response.status === 'approved') {
                     console.log(response)
-                    const { status, external_reference, transaction_amount } = response
+                    const { external_reference, id } = response
 
                     const date_last_updated = response.card?.date_last_updated ? response.card?.date_last_updated : undefined;
-                    const operacion = response.order?.id ? response.order?.id : undefined;
+
+                    const obj = {
+                        TRA_PAYMENT: id,
+                        ETR_ID: 3,
+                        MPA_ID: 1,
+                        VEN_ID: external_reference,
+                        TRA_FECHA: date_last_updated
+                    }
+
+                    await transaccionPost(obj)
+
+                    console.log('SETVENTAPAGADA', await setVentaPagada(external_reference))
 
 
                     //card.date_last_updated
@@ -145,24 +138,22 @@ const webhook = async (req: any, res: Response) => {
                     // [1]   external_reference: '555',
 
 
+                    //POST TRANSACCION
+                    // TRA_PAYMENT: id
+                    // ETR_ID: 3,
+                    // MPA_ID: 1,
+                    // VEN_ID: external_reference
+                    // TRA_FECHA: date_last_updated
 
                     //PUT VENTA
                     // EVE_ID: 3
 
-                    //POST TRANSACCION
-                    //TRA_OP: 55
-                    // ETR_ID: 3,
-                    // MPA_ID: 1,
-                    // VEN_ID: external_reference,
-
-
-
-                    res.status(204).json({
-                        ok: true,
-                        status: 200,
-                        message: "WEBHOOK, respuesta del payment.get",
-                        body: response
-                    })
+                    // res.status(204).json({
+                    //     ok: true,
+                    //     status: 200,
+                    //     message: "WEBHOOK, respuesta del payment.get",
+                    //     body: response
+                    // })
                 }
             }));
         }

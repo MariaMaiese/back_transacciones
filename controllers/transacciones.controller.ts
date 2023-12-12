@@ -22,23 +22,36 @@ const transaccionGetById = async (req: Request, res: Response) => {
     })
 }
 
-const transaccionPost = async (req: Request, res: Response) => {
-    const { ETR_ID,
-        MPA_ID,
-        VEN_ID } = req.body;
+interface transaccionPostDTO {
+    TRA_PAYMENT: number,
+    ETR_ID: number,
+    MPA_ID: number,
+    VEN_ID: number,
+    TRA_FECHA: string
+}
 
-    await transaccion.create({
+
+const transaccionPost = async (obj: transaccionPostDTO) => {
+    const {
+        TRA_PAYMENT,
         ETR_ID,
         MPA_ID,
         VEN_ID,
-        TRA_FECHA: new Date()
-    })
+        TRA_FECHA } = obj;
 
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        message: "Transacción creada"
-    })
+    try {
+        return await transaccion.create({
+            TRA_PAYMENT,
+            ETR_ID,
+            MPA_ID,
+            VEN_ID,
+            TRA_FECHA
+        })
+
+    } catch (error) {
+        return error
+    }
+
 }
 
 const transaccionPut = async (req: Request, res: Response) => {

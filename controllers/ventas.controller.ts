@@ -12,6 +12,20 @@ const ventasGet = async (req: Request, res: Response) => {
     })
 }
 
+
+const getVentasByUserId = async (req: Request, res: Response) => {
+
+    const { id } = req.params
+
+    const ventas: venta[] = await venta.findAll({ where: { USU_ID: id } })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: ventas
+    })
+}
+
 const ventasGetById = async (req: Request, res: Response) => {
     const { id } = req.params
     const resVenta = await venta.findByPk(id);
@@ -73,5 +87,6 @@ module.exports = {
     ventasGet,
     ventasGetById,
     ventasPost,
-    setVentaPagada
+    setVentaPagada,
+    getVentasByUserId
 }

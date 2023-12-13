@@ -4,11 +4,13 @@ import { existeEstados_venta, existeTipos_dt, existeVenta } from "../helpers/db-
 import { validarRut } from "../helpers/moduloEleven";
 
 const { Router } = require('express');
-const { ventasGet, ventasGetById, ventasPost } = require('../controllers/ventas.controller');
+const { ventasGet, ventasGetById, ventasPost, getVentasByUserId } = require('../controllers/ventas.controller');
 
 const router = Router();
 
 router.get('/', ventasGet);
+
+router.get('/ventas-by-user-id/:id', getVentasByUserId);
 
 router.get('/:id', [
     param('id').custom(existeVenta),
